@@ -682,7 +682,7 @@ ngx_ssl_ciphers(ngx_conf_t *cf, ngx_ssl_t *ssl, ngx_str_t *ciphers,
 
 ngx_int_t
 ngx_ssl_client_certificate(ngx_conf_t *cf, ngx_ssl_t *ssl, ngx_str_t *cert,
-    ngx_int_t depth)
+    ngx_int_t depth, ngx_flag_t partial_chain)
 {
     int                   n, i;
     char                 *err;
@@ -692,6 +692,12 @@ ngx_ssl_client_certificate(ngx_conf_t *cf, ngx_ssl_t *ssl, ngx_str_t *cert,
     STACK_OF(X509)       *chain;
     STACK_OF(X509_NAME)  *list;
 
+    if(partial_chain) {
+        X509_STORE *store = SSL_CTX_get_cert_store(ssl->ctx);
+        X509_VERIFY_PARAM *vpm = X509_STORE_get0_param(store);
+        X509_VERIFY_PARAM_set_flags(vpm, X509_V_FLAG_PARTIAL_CHAIN);
+    }
+    
     SSL_CTX_set_verify(ssl->ctx, SSL_VERIFY_PEER, ngx_ssl_verify_callback);
 
     SSL_CTX_set_verify_depth(ssl->ctx, depth);
@@ -704,7 +710,6 @@ ngx_ssl_client_certificate(ngx_conf_t *cf, ngx_ssl_t *ssl, ngx_str_t *cert,
     if (list == NULL) {
         return NGX_ERROR;
     }
-
     store = SSL_CTX_get_cert_store(ssl->ctx);
 
     if (store == NULL) {

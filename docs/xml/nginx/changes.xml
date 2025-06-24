@@ -5,14 +5,62 @@
 <change_log title="nginx">
 
 
-<changes ver="1.28.0" date="2025-04-23">
+<changes ver="1.29.0" date="2025-06-24">
 
-<change>
+<change type="feature">
 <para lang="ru">
-Стабильная ветка 1.28.x.
+поддержка ответа с кодом 103 от proxy- и gRPC-бэкендов;
+директива early_hints.
 </para>
 <para lang="en">
-1.28.x stable branch.
+support for response code 103 from proxy and gRPC backends;
+the "early_hints" directive.
+</para>
+</change>
+
+<change type="feature">
+<para lang="ru">
+возможность загрузки секретных ключей с аппаратных устройств
+с помощью OpenSSL provider.
+</para>
+<para lang="en">
+loading of secret keys from hardware tokens
+with OpenSSL provider.
+</para>
+</change>
+
+<change type="feature">
+<para lang="ru">
+поддержка параметра so_keepalive директивы listen на macOS.
+</para>
+<para lang="en">
+support for the "so_keepalive" parameter of the "listen" directive on macOS.
+</para>
+</change>
+
+<change type="change">
+<para lang="ru">
+уровень логгирования ошибок SSL в QUIC handshake
+изменён с уровня error на crit для критических ошибок
+и на info для всех остальных;
+уровень логгирования неподдерживаемых транспортных параметров QUIC
+понижен с уровня info до debug.
+</para>
+<para lang="en">
+the logging level of SSL errors in a QUIC handshake
+has been changed from "error" to "crit" for critical errors,
+and to "info" for the rest;
+the logging level of unsupported QUIC transport parameters
+has been lowered from "info" to "debug".
+</para>
+</change>
+
+<change type="change">
+<para lang="ru">
+бинарная версия nginx/Windows теперь использует для сборки Windows SDK 10.
+</para>
+<para lang="en">
+the native nginx/Windows binary release is now built using Windows SDK 10.
 </para>
 </change>
 
@@ -35,6 +83,15 @@ nginx мог не собираться gcc 14 и новее с оптимиза�
 <para lang="en">
 nginx might not be built by gcc 14 or newer with -O3 -flto optimization
 if ngx_http_v3_module was used.
+</para>
+</change>
+
+<change>
+<para lang="ru">
+Исправления и улучшения в HTTP/3.
+</para>
+<para lang="en">
+Bugfixes and improvements in HTTP/3.
 </para>
 </change>
 
